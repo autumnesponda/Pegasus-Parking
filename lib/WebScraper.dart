@@ -28,11 +28,13 @@ class WebScraper implements IWebScrape {
         if (currentGarage.garageName != null) {
           garages.add(currentGarage);
           currentGarage = Garage.initToEmpty();
-          currentGarage.garageName = element.nodes[0].toString();
+          var garageName = element.nodes[0].toString();
+          currentGarage.garageName = garageName.substring(1, garageName.length - 1);
         }
         
         else {
-          currentGarage.garageName = element.nodes[0].toString();
+          var garageName = element.nodes[0].toString();
+          currentGarage.garageName = garageName.substring(1, garageName.length - 1);
         }
       }
 
