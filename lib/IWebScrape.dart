@@ -1,5 +1,6 @@
 import 'package:ucf_parking/Garage.dart';
+import 'dart:async';
 
 abstract class IWebScrape {
-  List<Garage> scrape(String source);
+  Future<List<Garage>> scrape(String source);
 }
