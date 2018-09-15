@@ -15,6 +15,7 @@ class Garage {
     this.percentFull = -1;
   }
 
+  // Checks if this garage is valid.
   bool isComplete() {
     if (garageName == null)
       return false;
