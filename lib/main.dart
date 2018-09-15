@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:ucf_parking/WebScraper.dart';
 
 void main() async {
-
-  await WebScraper.scrape('http://secure.parking.ucf.edu/GarageCount/');
+  final WebScraper scraper = WebScraper();
+  print("bazinga");
+  await scraper.scrape();
   runApp(new MyApp());
 
 }
