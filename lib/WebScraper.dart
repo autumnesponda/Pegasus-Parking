@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:ucf_parking/Garage.dart';
 import 'package:ucf_parking/IWebScrape.dart';
 import 'package:http/http.dart' as http;
@@ -56,6 +58,10 @@ class WebScraper implements IWebScrape {
 
         // Get the fullness percentage of the garage and cast it to an int.
         currentGarage.percentFull = 100 - (availableSpots / capacity * 100).round();
+
+        // magical formula to very accurately grab an estimate for time to park
+        int x = currentGarage.percentFull;
+        currentGarage.timeToPark = (2 + 0.2777273*x - 0.009374242*pow(x, 2) + 0.0001288182*pow(x, 3) - 2.484848e-7*pow(x, 4)).round();
       }
 
       // Only add the current garage to the list if it is initialized with the proper values.
