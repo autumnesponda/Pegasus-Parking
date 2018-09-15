@@ -10,6 +10,8 @@ description: Description here!
 version: 1.0.0+1
 
 dependencies:
+  html: any
+
   flutter:
     sdk: flutter
 
