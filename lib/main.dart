@@ -739,7 +739,7 @@ class _MyHomePageState extends State<MyHomePage> {
     refreshKey.currentState?.show(atTop: false);
     WebScraper scraper = WebScraper();
     List<Garage> data = await scraper.scrape();
-    List<Card> newData;
+    List<Card> newData = List<Card>();
     data.forEach((g) {
       newData.add(Card(
         child: Padding(
