@@ -6,16 +6,19 @@ import 'package:html/dom.dart';
 import 'dart:async';
 
 class WebScraper implements IWebScrape {
+  final _url = 'http://secure.parking.ucf.edu/GarageCount/';
 
   @override
-  static Future<List<Garage>> scrape (String source) async {
+  Future<List<Garage>> scrape () async {
     // TODO: Parse through parsed data.
-    http.Response response = await http.get(source);
+    http.Response response = await http.get(_url);
 
     Document document = parser.parse(response.body);
 
+
     document.getElementsByClassName('dxgv').forEach((Element element){
-      print(element.text);
+//      print(element.text);
+      print(element.attributes.keys);
     });
 
     return List<Garage>();
