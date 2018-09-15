@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:ucf_parking/Garage.dart';
+import 'package:ucf_parking/WebScraper.dart';
 import 'dart:async';
 
 void main() {
@@ -60,60 +62,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   static double value = 0.66;
   final Connectivity _connectivity = Connectivity();
+  
+  //init card list
+  //region
   static List<Card> cards = <Card>[
-    Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: <Widget>[
-            Center(
-                child: Text(
-              "Garbage A",
-              style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
-            )),
-            SizedBox(
-              height: 12.0,
-            ),
-            Row(
-              children: <Widget>[
-                Text(
-                  "Estimated Parking Time:",
-                  style: TextStyle(fontSize: 16.0),
-                ),
-                SizedBox(
-                  width: 8.0,
-                ),
-                Text(
-                  "4 min",
-                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  width: 12.0,
-                ),
-                CircularPercentIndicator(
-                  radius: 75.0,
-                  lineWidth: 5.0,
-                  percent: .66,
-                  center: new Text("66%" + '\n' + " full"),
-                  progressColor: Colors.orange,
-                ),
-                SizedBox(
-                  width: 4.0,
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 8.0,
-            ),
-            SizedBox(
-              height: 12.0,
-            ),
-          ],
-        ),
-      ),
-      elevation: 12.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
-    ),
     Card(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -124,6 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -131,7 +84,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       "Garage B",
                       style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
                     ),
-                    Icon(Icons.map,)
                   ],
                 ),
                 //SizedBox(height: 8.0,),
@@ -159,6 +111,90 @@ class _MyHomePageState extends State<MyHomePage> {
                       style: TextStyle(
                           fontSize: 18.0, fontWeight: FontWeight.bold),
                     ),
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(
+              width: 16.0,
+            ),
+            Column(
+              children: <Widget>[
+                Padding(
+                  //this is to shift the progress indicator slightly to the
+                  //left so that it looks pretty
+                  padding: const EdgeInsets.fromLTRB(0.0, 0.0, 4.0, 0.0),
+                  child: CircularPercentIndicator(
+                    radius: 75.0,
+                    lineWidth: 5.0,
+                    percent: .66,
+                    center: new Text("66%" + '\n' + " full"),
+                    progressColor: Colors.orange,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      elevation: 12.0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+    ),
+    Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      "Garage B",
+                      style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                //SizedBox(height: 8.0,),
+                Row(
+                  children: <Widget>[
+                    Text("Spots Available: "),
+                    SizedBox(
+                      width: 8.0,
+                    ),
+                    Text(
+                      "378",
+                      style: TextStyle(
+                          fontSize: 18.0, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    Text("Estimated Parking Time: "),
+                    SizedBox(
+                      width: 8.0,
+                    ),
+                    Text(
+                      "4 min",
+                      style: TextStyle(
+                          fontSize: 18.0, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+
                   ],
                 ),
               ],
@@ -659,12 +695,15 @@ class _MyHomePageState extends State<MyHomePage> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
     ),
   ];
+  //endregion
+
+
 
   static ListView cardListView = ListView.builder(
     itemBuilder: (context, index) {
       return cards[index];
     },
-    itemCount: 9,
+    itemCount: cards.length,
     physics: AlwaysScrollableScrollPhysics(),
   );
   static ScrollController _scrollController = new ScrollController();
@@ -698,7 +737,91 @@ class _MyHomePageState extends State<MyHomePage> {
 
   static Future<Null> refreshList() async {
     refreshKey.currentState?.show(atTop: false);
-    await Future.delayed(Duration(seconds: 2));
+    WebScraper scraper = WebScraper();
+    List<Garage> data = await scraper.scrape();
+    List<Card> newData;
+    data.forEach((g) {
+      newData.add(Card(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        g.garageName,
+                        style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  //SizedBox(height: 8.0,),
+                  Row(
+                    children: <Widget>[
+                      Text("Spots Available: "),
+                      SizedBox(
+                        width: 8.0,
+                      ),
+                      Text(
+                        "${g.availableSpots}",
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text("Estimated Parking Time: "),
+                      SizedBox(
+                        width: 8.0,
+                      ),
+                      Text(
+                        "4 min",
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(
+                width: 16.0,
+              ),
+              Column(
+                children: <Widget>[
+                  Padding(
+                    //this is to shift the progress indicator slightly to the
+                    //left so that it looks pretty
+                    padding: const EdgeInsets.fromLTRB(0.0, 0.0, 4.0, 0.0),
+                    child: CircularPercentIndicator(
+                      radius: 75.0,
+                      lineWidth: 5.0,
+                      percent: .66,
+                      center: new Text("${g.percentFull}" + '\n' + " full"),
+                      progressColor: Colors.orange,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        elevation: 12.0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+      ));
+    });
+    cards = newData;
 
     return null;
   }
