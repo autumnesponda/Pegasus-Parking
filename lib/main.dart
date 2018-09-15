@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:ucf_parking/WebScraper.dart';
 
-void main() => runApp(new MyApp());
+void main() async {
+
+  await WebScraper.scrape('http://secure.parking.ucf.edu/GarageCount/');
+  runApp(new MyApp());
+
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
