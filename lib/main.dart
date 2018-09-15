@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Pegasus Parking',
       theme: new ThemeData(
         // This is the theme of your application.
@@ -50,8 +51,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  static var refreshKey = GlobalKey<RefreshIndicatorState>();
-  static var random;
+  var refreshKey = GlobalKey<RefreshIndicatorState>();
+  var random;
+  List<Card> cards = List<Card>();
 
   @override
   void initState() {
@@ -65,682 +67,15 @@ class _MyHomePageState extends State<MyHomePage> {
   
   //init card list
   //region
-  static List<Card> cards = <Card>[
-    Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      "Garage B",
-                      style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                //SizedBox(height: 8.0,),
-                Row(
-                  children: <Widget>[
-                    Text("Spots Available: "),
-                    SizedBox(
-                      width: 8.0,
-                    ),
-                    Text(
-                      "378",
-                      style: TextStyle(
-                          fontSize: 18.0, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Text("Estimated Parking Time: "),
-                    SizedBox(
-                      width: 8.0,
-                    ),
-                    Text(
-                      "4 min",
-                      style: TextStyle(
-                          fontSize: 18.0, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(
-              width: 16.0,
-            ),
-            Column(
-              children: <Widget>[
-                Padding(
-                  //this is to shift the progress indicator slightly to the
-                  //left so that it looks pretty
-                  padding: const EdgeInsets.fromLTRB(0.0, 0.0, 4.0, 0.0),
-                  child: CircularPercentIndicator(
-                    radius: 75.0,
-                    lineWidth: 5.0,
-                    percent: .66,
-                    center: new Text("66%" + '\n' + " full"),
-                    progressColor: Colors.orange,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-      elevation: 12.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
-    ),
-    Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      "Garage B",
-                      style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                //SizedBox(height: 8.0,),
-                Row(
-                  children: <Widget>[
-                    Text("Spots Available: "),
-                    SizedBox(
-                      width: 8.0,
-                    ),
-                    Text(
-                      "378",
-                      style: TextStyle(
-                          fontSize: 18.0, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Text("Estimated Parking Time: "),
-                    SizedBox(
-                      width: 8.0,
-                    ),
-                    Text(
-                      "4 min",
-                      style: TextStyle(
-                          fontSize: 18.0, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(
-              width: 16.0,
-            ),
-            Column(
-              children: <Widget>[
-                Padding(
-                  //this is to shift the progress indicator slightly to the
-                  //left so that it looks pretty
-                  padding: const EdgeInsets.fromLTRB(0.0, 0.0, 4.0, 0.0),
-                  child: CircularPercentIndicator(
-                    radius: 75.0,
-                    lineWidth: 5.0,
-                    percent: .66,
-                    center: new Text("66%" + '\n' + " full"),
-                    progressColor: Colors.orange,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-      elevation: 12.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
-    ),
-    Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "Garage B",
-                  style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-                ),
-                //SizedBox(height: 8.0,),
-                Row(
-                  children: <Widget>[
-                    Text("Spots Available: "),
-                    SizedBox(
-                      width: 8.0,
-                    ),
-                    Text(
-                      "378",
-                      style: TextStyle(
-                          fontSize: 18.0, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Text("Estimated Parking Time: "),
-                    SizedBox(
-                      width: 8.0,
-                    ),
-                    Text(
-                      "4 min",
-                      style: TextStyle(
-                          fontSize: 18.0, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(
-              width: 16.0,
-            ),
-            Column(
-              children: <Widget>[
-                Padding(
-                  //this is to shift the progress indicator slightly to the
-                  //left so that it looks pretty
-                  padding: const EdgeInsets.fromLTRB(0.0, 0.0, 4.0, 0.0),
-                  child: CircularPercentIndicator(
-                    radius: 75.0,
-                    lineWidth: 5.0,
-                    percent: .66,
-                    center: new Text("66%" + '\n' + " full"),
-                    progressColor: Colors.orange,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-      elevation: 12.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
-    ),Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "Garage B",
-                  style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-                ),
-                //SizedBox(height: 8.0,),
-                Row(
-                  children: <Widget>[
-                    Text("Spots Available: "),
-                    SizedBox(
-                      width: 8.0,
-                    ),
-                    Text(
-                      "378",
-                      style: TextStyle(
-                          fontSize: 18.0, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Text("Estimated Parking Time: "),
-                    SizedBox(
-                      width: 8.0,
-                    ),
-                    Text(
-                      "4 min",
-                      style: TextStyle(
-                          fontSize: 18.0, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(
-              width: 16.0,
-            ),
-            Column(
-              children: <Widget>[
-                Padding(
-                  //this is to shift the progress indicator slightly to the
-                  //left so that it looks pretty
-                  padding: const EdgeInsets.fromLTRB(0.0, 0.0, 4.0, 0.0),
-                  child: CircularPercentIndicator(
-                    radius: 75.0,
-                    lineWidth: 5.0,
-                    percent: .66,
-                    center: new Text("66%" + '\n' + " full"),
-                    progressColor: Colors.orange,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-      elevation: 12.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
-    ),Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "Garage B",
-                  style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-                ),
-                //SizedBox(height: 8.0,),
-                Row(
-                  children: <Widget>[
-                    Text("Spots Available: "),
-                    SizedBox(
-                      width: 8.0,
-                    ),
-                    Text(
-                      "378",
-                      style: TextStyle(
-                          fontSize: 18.0, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Text("Estimated Parking Time: "),
-                    SizedBox(
-                      width: 8.0,
-                    ),
-                    Text(
-                      "4 min",
-                      style: TextStyle(
-                          fontSize: 18.0, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(
-              width: 16.0,
-            ),
-            Column(
-              children: <Widget>[
-                Padding(
-                  //this is to shift the progress indicator slightly to the
-                  //left so that it looks pretty
-                  padding: const EdgeInsets.fromLTRB(0.0, 0.0, 4.0, 0.0),
-                  child: CircularPercentIndicator(
-                    radius: 75.0,
-                    lineWidth: 5.0,
-                    percent: .66,
-                    center: new Text("66%" + '\n' + " full"),
-                    progressColor: Colors.orange,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-      elevation: 12.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
-    ),Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "Garage B",
-                  style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-                ),
-                //SizedBox(height: 8.0,),
-                Row(
-                  children: <Widget>[
-                    Text("Spots Available: "),
-                    SizedBox(
-                      width: 8.0,
-                    ),
-                    Text(
-                      "378",
-                      style: TextStyle(
-                          fontSize: 18.0, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Text("Estimated Parking Time: "),
-                    SizedBox(
-                      width: 8.0,
-                    ),
-                    Text(
-                      "4 min",
-                      style: TextStyle(
-                          fontSize: 18.0, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(
-              width: 16.0,
-            ),
-            Column(
-              children: <Widget>[
-                Padding(
-                  //this is to shift the progress indicator slightly to the
-                  //left so that it looks pretty
-                  padding: const EdgeInsets.fromLTRB(0.0, 0.0, 4.0, 0.0),
-                  child: CircularPercentIndicator(
-                    radius: 75.0,
-                    lineWidth: 5.0,
-                    percent: .66,
-                    center: new Text("66%" + '\n' + " full"),
-                    progressColor: Colors.orange,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-      elevation: 12.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
-    ),Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "Garage B",
-                  style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-                ),
-                //SizedBox(height: 8.0,),
-                Row(
-                  children: <Widget>[
-                    Text("Spots Available: "),
-                    SizedBox(
-                      width: 8.0,
-                    ),
-                    Text(
-                      "378",
-                      style: TextStyle(
-                          fontSize: 18.0, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Text("Estimated Parking Time: "),
-                    SizedBox(
-                      width: 8.0,
-                    ),
-                    Text(
-                      "4 min",
-                      style: TextStyle(
-                          fontSize: 18.0, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(
-              width: 16.0,
-            ),
-            Column(
-              children: <Widget>[
-                Padding(
-                  //this is to shift the progress indicator slightly to the
-                  //left so that it looks pretty
-                  padding: const EdgeInsets.fromLTRB(0.0, 0.0, 4.0, 0.0),
-                  child: CircularPercentIndicator(
-                    radius: 75.0,
-                    lineWidth: 5.0,
-                    percent: .66,
-                    center: new Text("66%" + '\n' + " full"),
-                    progressColor: Colors.orange,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-      elevation: 12.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
-    ),Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "Garage B",
-                  style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-                ),
-                //SizedBox(height: 8.0,),
-                Row(
-                  children: <Widget>[
-                    Text("Spots Available: "),
-                    SizedBox(
-                      width: 8.0,
-                    ),
-                    Text(
-                      "378",
-                      style: TextStyle(
-                          fontSize: 18.0, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Text("Estimated Parking Time: "),
-                    SizedBox(
-                      width: 8.0,
-                    ),
-                    Text(
-                      "4 min",
-                      style: TextStyle(
-                          fontSize: 18.0, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(
-              width: 16.0,
-            ),
-            Column(
-              children: <Widget>[
-                Padding(
-                  //this is to shift the progress indicator slightly to the
-                  //left so that it looks pretty
-                  padding: const EdgeInsets.fromLTRB(0.0, 0.0, 4.0, 0.0),
-                  child: CircularPercentIndicator(
-                    radius: 75.0,
-                    lineWidth: 5.0,
-                    percent: .66,
-                    center: new Text("66%" + '\n' + " full"),
-                    progressColor: Colors.orange,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-      elevation: 12.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
-    ),Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "Garage B",
-                  style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-                ),
-                //SizedBox(height: 8.0,),
-                Row(
-                  children: <Widget>[
-                    Text("Spots Available: "),
-                    SizedBox(
-                      width: 8.0,
-                    ),
-                    Text(
-                      "378",
-                      style: TextStyle(
-                          fontSize: 18.0, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Text("Estimated Parking Time: "),
-                    SizedBox(
-                      width: 8.0,
-                    ),
-                    Text(
-                      "4 min",
-                      style: TextStyle(
-                          fontSize: 18.0, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(
-              width: 16.0,
-            ),
-            Column(
-              children: <Widget>[
-                Padding(
-                  //this is to shift the progress indicator slightly to the
-                  //left so that it looks pretty
-                  padding: const EdgeInsets.fromLTRB(0.0, 0.0, 4.0, 0.0),
-                  child: CircularPercentIndicator(
-                    radius: 75.0,
-                    lineWidth: 5.0,
-                    percent: .66,
-                    center: new Text("66%" + '\n' + " full"),
-                    progressColor: Colors.orange,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-      elevation: 12.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
-    ),
-  ];
-  //endregion
-
-
-
-  static ListView cardListView = ListView.builder(
-    itemBuilder: (context, index) {
-      return cards[index];
-    },
-    itemCount: cards.length,
-    physics: AlwaysScrollableScrollPhysics(),
-  );
-  static ScrollController _scrollController = new ScrollController();
-
-  static Scaffold scaffold = Scaffold(
-    bottomNavigationBar: BottomNavigationBar(
-      items: <BottomNavigationBarItem>[
-        BottomNavigationBarItem(title: Text("List"), icon: Icon(Icons.list)),
-        BottomNavigationBarItem(title: Text("Map"), icon: Icon(Icons.map))
-      ],
-    ),
-    appBar: new AppBar(
-      // Here we take the value from the MyHomePage object that was created by
-      // the App.build method, and use it to set our appbar title.
-      title: Center(child: new Text('Pegasus Parking')),
-    ),
-    body: RefreshIndicator(
-      key: refreshKey,
-      child: ListView.builder(
-        itemBuilder: (context, index) {
-          return cards[index];
-        },
-        itemCount: 9,
-        physics: BouncingScrollPhysics(),
-      ),
-      onRefresh: refreshList,
-    ),
-//    Column(children: <Widget>[cardList],)
-    //cardList, // This trailing comma makes auto-formatting nicer for build methods.
-  );
-
-  static Future<Null> refreshList() async {
+  Future<Null> refreshList() async {
     refreshKey.currentState?.show(atTop: false);
     WebScraper scraper = WebScraper();
+
     List<Garage> data = await scraper.scrape();
     List<Card> newData = List<Card>();
+    cards.clear();
     data.forEach((g) {
+      print("${g.toString()}");
       newData.add(Card(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -807,8 +142,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: CircularPercentIndicator(
                       radius: 75.0,
                       lineWidth: 5.0,
-                      percent: .66,
-                      center: new Text("${g.percentFull}" + '\n' + " full"),
+                      percent: g.percentFull/100.0,
+                      center: new Text("${g.percentFull}%" + '\n' + " full"),
                       progressColor: Colors.orange,
                     ),
                   ),
@@ -821,13 +156,685 @@ class _MyHomePageState extends State<MyHomePage> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
       ));
     });
-    cards = newData;
+    setState(() {
+      cards = newData;
+    });
+
 
     return null;
   }
 
   @override
   Widget build(BuildContext context) {
+    /*cards = <Card>[
+      Card(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        "Garage B",
+                        style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  //SizedBox(height: 8.0,),
+                  Row(
+                    children: <Widget>[
+                      Text("Spots Available: "),
+                      SizedBox(
+                        width: 8.0,
+                      ),
+                      Text(
+                        "378",
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text("Estimated Parking Time: "),
+                      SizedBox(
+                        width: 8.0,
+                      ),
+                      Text(
+                        "4 min",
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(
+                width: 16.0,
+              ),
+              Column(
+                children: <Widget>[
+                  Padding(
+                    //this is to shift the progress indicator slightly to the
+                    //left so that it looks pretty
+                    padding: const EdgeInsets.fromLTRB(0.0, 0.0, 4.0, 0.0),
+                    child: CircularPercentIndicator(
+                      radius: 75.0,
+                      lineWidth: 5.0,
+                      percent: .66,
+                      center: new Text("66%" + '\n' + " full"),
+                      progressColor: Colors.orange,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        elevation: 12.0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+      ),
+      Card(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        "Garage B",
+                        style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  //SizedBox(height: 8.0,),
+                  Row(
+                    children: <Widget>[
+                      Text("Spots Available: "),
+                      SizedBox(
+                        width: 8.0,
+                      ),
+                      Text(
+                        "378",
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text("Estimated Parking Time: "),
+                      SizedBox(
+                        width: 8.0,
+                      ),
+                      Text(
+                        "4 min",
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(
+                width: 16.0,
+              ),
+              Column(
+                children: <Widget>[
+                  Padding(
+                    //this is to shift the progress indicator slightly to the
+                    //left so that it looks pretty
+                    padding: const EdgeInsets.fromLTRB(0.0, 0.0, 4.0, 0.0),
+                    child: CircularPercentIndicator(
+                      radius: 75.0,
+                      lineWidth: 5.0,
+                      percent: .66,
+                      center: new Text("66%" + '\n' + " full"),
+                      progressColor: Colors.orange,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        elevation: 12.0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+      ),
+      Card(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Garage B",
+                    style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                  ),
+                  //SizedBox(height: 8.0,),
+                  Row(
+                    children: <Widget>[
+                      Text("Spots Available: "),
+                      SizedBox(
+                        width: 8.0,
+                      ),
+                      Text(
+                        "378",
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text("Estimated Parking Time: "),
+                      SizedBox(
+                        width: 8.0,
+                      ),
+                      Text(
+                        "4 min",
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(
+                width: 16.0,
+              ),
+              Column(
+                children: <Widget>[
+                  Padding(
+                    //this is to shift the progress indicator slightly to the
+                    //left so that it looks pretty
+                    padding: const EdgeInsets.fromLTRB(0.0, 0.0, 4.0, 0.0),
+                    child: CircularPercentIndicator(
+                      radius: 75.0,
+                      lineWidth: 5.0,
+                      percent: .66,
+                      center: new Text("66%" + '\n' + " full"),
+                      progressColor: Colors.orange,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        elevation: 12.0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+      ),Card(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Garage B",
+                    style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                  ),
+                  //SizedBox(height: 8.0,),
+                  Row(
+                    children: <Widget>[
+                      Text("Spots Available: "),
+                      SizedBox(
+                        width: 8.0,
+                      ),
+                      Text(
+                        "378",
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text("Estimated Parking Time: "),
+                      SizedBox(
+                        width: 8.0,
+                      ),
+                      Text(
+                        "4 min",
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(
+                width: 16.0,
+              ),
+              Column(
+                children: <Widget>[
+                  Padding(
+                    //this is to shift the progress indicator slightly to the
+                    //left so that it looks pretty
+                    padding: const EdgeInsets.fromLTRB(0.0, 0.0, 4.0, 0.0),
+                    child: CircularPercentIndicator(
+                      radius: 75.0,
+                      lineWidth: 5.0,
+                      percent: .66,
+                      center: new Text("66%" + '\n' + " full"),
+                      progressColor: Colors.orange,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        elevation: 12.0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+      ),Card(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Garage B",
+                    style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                  ),
+                  //SizedBox(height: 8.0,),
+                  Row(
+                    children: <Widget>[
+                      Text("Spots Available: "),
+                      SizedBox(
+                        width: 8.0,
+                      ),
+                      Text(
+                        "378",
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text("Estimated Parking Time: "),
+                      SizedBox(
+                        width: 8.0,
+                      ),
+                      Text(
+                        "4 min",
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(
+                width: 16.0,
+              ),
+              Column(
+                children: <Widget>[
+                  Padding(
+                    //this is to shift the progress indicator slightly to the
+                    //left so that it looks pretty
+                    padding: const EdgeInsets.fromLTRB(0.0, 0.0, 4.0, 0.0),
+                    child: CircularPercentIndicator(
+                      radius: 75.0,
+                      lineWidth: 5.0,
+                      percent: .66,
+                      center: new Text("66%" + '\n' + " full"),
+                      progressColor: Colors.orange,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        elevation: 12.0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+      ),Card(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Garage B",
+                    style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                  ),
+                  //SizedBox(height: 8.0,),
+                  Row(
+                    children: <Widget>[
+                      Text("Spots Available: "),
+                      SizedBox(
+                        width: 8.0,
+                      ),
+                      Text(
+                        "378",
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text("Estimated Parking Time: "),
+                      SizedBox(
+                        width: 8.0,
+                      ),
+                      Text(
+                        "4 min",
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(
+                width: 16.0,
+              ),
+              Column(
+                children: <Widget>[
+                  Padding(
+                    //this is to shift the progress indicator slightly to the
+                    //left so that it looks pretty
+                    padding: const EdgeInsets.fromLTRB(0.0, 0.0, 4.0, 0.0),
+                    child: CircularPercentIndicator(
+                      radius: 75.0,
+                      lineWidth: 5.0,
+                      percent: .66,
+                      center: new Text("66%" + '\n' + " full"),
+                      progressColor: Colors.orange,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        elevation: 12.0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+      ),Card(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Garage B",
+                    style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                  ),
+                  //SizedBox(height: 8.0,),
+                  Row(
+                    children: <Widget>[
+                      Text("Spots Available: "),
+                      SizedBox(
+                        width: 8.0,
+                      ),
+                      Text(
+                        "378",
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text("Estimated Parking Time: "),
+                      SizedBox(
+                        width: 8.0,
+                      ),
+                      Text(
+                        "4 min",
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(
+                width: 16.0,
+              ),
+              Column(
+                children: <Widget>[
+                  Padding(
+                    //this is to shift the progress indicator slightly to the
+                    //left so that it looks pretty
+                    padding: const EdgeInsets.fromLTRB(0.0, 0.0, 4.0, 0.0),
+                    child: CircularPercentIndicator(
+                      radius: 75.0,
+                      lineWidth: 5.0,
+                      percent: .66,
+                      center: new Text("66%" + '\n' + " full"),
+                      progressColor: Colors.orange,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        elevation: 12.0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+      ),Card(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Garage B",
+                    style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                  ),
+                  //SizedBox(height: 8.0,),
+                  Row(
+                    children: <Widget>[
+                      Text("Spots Available: "),
+                      SizedBox(
+                        width: 8.0,
+                      ),
+                      Text(
+                        "378",
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text("Estimated Parking Time: "),
+                      SizedBox(
+                        width: 8.0,
+                      ),
+                      Text(
+                        "4 min",
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(
+                width: 16.0,
+              ),
+              Column(
+                children: <Widget>[
+                  Padding(
+                    //this is to shift the progress indicator slightly to the
+                    //left so that it looks pretty
+                    padding: const EdgeInsets.fromLTRB(0.0, 0.0, 4.0, 0.0),
+                    child: CircularPercentIndicator(
+                      radius: 75.0,
+                      lineWidth: 5.0,
+                      percent: .66,
+                      center: new Text("66%" + '\n' + " full"),
+                      progressColor: Colors.orange,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        elevation: 12.0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+      ),Card(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Garage B",
+                    style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                  ),
+                  //SizedBox(height: 8.0,),
+                  Row(
+                    children: <Widget>[
+                      Text("Spots Available: "),
+                      SizedBox(
+                        width: 8.0,
+                      ),
+                      Text(
+                        "378",
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text("Estimated Parking Time: "),
+                      SizedBox(
+                        width: 8.0,
+                      ),
+                      Text(
+                        "4 min",
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(
+                width: 16.0,
+              ),
+              Column(
+                children: <Widget>[
+                  Padding(
+                    //this is to shift the progress indicator slightly to the
+                    //left so that it looks pretty
+                    padding: const EdgeInsets.fromLTRB(0.0, 0.0, 4.0, 0.0),
+                    child: CircularPercentIndicator(
+                      radius: 75.0,
+                      lineWidth: 5.0,
+                      percent: .66,
+                      center: new Text("66%" + '\n' + " full"),
+                      progressColor: Colors.orange,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        elevation: 12.0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+      ),
+    ];*/
+
+
+    ScrollController _scrollController = new ScrollController();
+    ListView cardListView = ListView.builder(
+      itemBuilder: (context, index) {
+        return cards[index];
+      },
+      itemCount: cards.length,
+      physics: AlwaysScrollableScrollPhysics(),
+    );
+
+    Scaffold scaffold = Scaffold(
+      bottomNavigationBar: BottomNavigationBar(
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(title: Text("List"), icon: Icon(Icons.list)),
+          BottomNavigationBarItem(title: Text("Map"), icon: Icon(Icons.map))
+        ],
+      ),
+      appBar: new AppBar(
+        // Here we take the value from the MyHomePage object that was created by
+        // the App.build method, and use it to set our appbar title.
+        title: Center(child: new Text('Pegasus Parking')),
+      ),
+      body: RefreshIndicator(
+        key: refreshKey,
+        child: ListView.builder(
+          itemBuilder: (context, index) {
+            if(cards.isEmpty)
+              return Card(
+                child: Text("PLz. Referesh."),
+              );
+            return cards[index];
+          },
+          itemCount: cards.length,
+          physics: BouncingScrollPhysics(),
+        ),
+        onRefresh: refreshList,
+      ),
+    );
     return scaffold;
   }
 }
