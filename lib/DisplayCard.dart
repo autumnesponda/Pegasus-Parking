@@ -1,14 +1,60 @@
-import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:percent_indicator/percent_indicator.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:ucf_parking/Garage.dart';
+import 'package:ucf_parking/main.dart';
 
-class GarageCard {
+enum CardType {ErrorCard, GarageCard, MapCard}
+
+class DisplayCard {
   Garage garage;
+  String errorTitle;
+  String errorSubtitle;
+  VoidCallback buttonOnPress;
+  CardType cardType;
 
-  GarageCard(this.garage);
+  DisplayCard.Error(this.errorTitle, this.errorSubtitle) {
+    this.cardType = CardType.ErrorCard;
+  }
 
-  static Card getCard(Garage g, VoidCallback iconButtonOnTap) {
+  DisplayCard.Garage(this.garage, this.buttonOnPress) {
+    this.errorTitle = null;
+    this.errorSubtitle = null;
+    this.cardType = CardType.GarageCard;
+  }
+
+  DisplayCard.Map(this.garage, this.buttonOnPress) {
+    this.errorTitle = null;
+    this.errorSubtitle = null;
+    this.cardType = CardType.MapCard;
+  }
+
+  Card getCard() {
+    switch (this.cardType) {
+      case CardType.GarageCard:
+        return makeGarageCard();
+      case CardType.ErrorCard:
+        return makeErrorCard();
+      case CardType.MapCard:
+        return makeMapCard();
+    }
+    return null;
+  }
+
+  void toggleCardType() {
+    switch (this.cardType) {
+      case CardType.GarageCard:
+        cardType = CardType.MapCard;
+        break;
+      case CardType.MapCard:
+        cardType = CardType.GarageCard;
+        break;
+      default:
+        break;
+    }
+    buttonOnPress();
+  }
+
+  Card makeGarageCard() {
     return Card(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
@@ -27,7 +73,7 @@ class GarageCard {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                              g.garageName,
+                              garage.garageName,
                               style: TextStyle(
                                   fontSize: 24.0, fontWeight: FontWeight.bold),
                             ),
@@ -41,7 +87,7 @@ class GarageCard {
                               width: 8.0,
                             ),
                             Text(
-                              "${g.availableSpots}",
+                              "${garage.availableSpots}",
                               style: TextStyle(
                                   fontSize: 17.0, fontWeight: FontWeight.bold),
                             ),
@@ -54,7 +100,7 @@ class GarageCard {
                               width: 8.0,
                             ),
                             Text(
-                              "~${g.timeToPark} min",
+                              "~${garage.timeToPark} min",
                               style: TextStyle(
                                   fontSize: 17.0, fontWeight: FontWeight.bold),
                             ),
@@ -74,8 +120,8 @@ class GarageCard {
                           child: CircularPercentIndicator(
                             radius: 75.0,
                             lineWidth: 5.0,
-                            percent: g.percentFull / 100.0,
-                            center: new Text("${g.percentFull}%" + '\n' + " full"),
+                            percent: garage.percentFull / 100.0,
+                            center: new Text("${garage.percentFull}%" + '\n' + " full"),
                             progressColor: Colors.orange,
                           ),
                         ),
@@ -92,13 +138,66 @@ class GarageCard {
               children: <Widget>[
                 IconButton(
                   icon: Icon(Icons.keyboard_arrow_down),
-                  onPressed: iconButtonOnTap,
+                  onPressed: toggleCardType,
                 ),
               ],
             ),
           ],
         ),
 
+      ),
+      elevation: 12.0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+    );
+  }
+
+  Card makeErrorCard() {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(children: <Widget>[
+          ListTile(
+            title: Center(child: Text(
+              this.errorTitle,
+              style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+            )),
+            subtitle: Center(child: Text(
+              this.errorSubtitle,
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+            )),
+          ),
+        ]),
+      ),
+      elevation: 12.0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+    );
+  }
+
+  Card makeMapCard() {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(children: <Widget>[
+          ListTile(
+            title: Center(child: Text(
+              "THIS IS A FUCKING MAP CARD",
+              style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+            )),
+            subtitle: Center(child: Text(
+              "AHHHHHHHHHHHHHHHHHHHHHHHHHHH",
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+            )),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.keyboard_arrow_up),
+                onPressed: toggleCardType,
+              ),
+            ],
+          ),
+        ]),
       ),
       elevation: 12.0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
