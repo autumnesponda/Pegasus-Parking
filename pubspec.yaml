@@ -21,6 +21,7 @@ dependencies:
   percent_indicator: ^1.0.9
   connectivity: ^0.3.1
   ls_refresher: ^0.0.3
+  map_view: ^0.0.14
 
 dev_dependencies:
   flutter_test:
@@ -42,6 +43,8 @@ flutter:
   # assets:
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
+  assets:
+    - images/SplashScreen.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

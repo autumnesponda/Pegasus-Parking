@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:ucf_parking/DisplayCard.dart';
 import 'package:ucf_parking/Garage.dart';
@@ -10,6 +9,9 @@ import 'package:map_view/map_view.dart';
 
 
 void main() {
+  runApp(new MaterialApp(
+    home: new SplashScreen(),
+  ));
   MapView.setApiKey("AIzaSyCOZxrc1ORQiZoy_yqesyKe8ma9vHBapxM");
   runApp(new MyApp());
 }
@@ -79,6 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Center(child: new Text('Pegasus Parking')),
+        backgroundColor: Colors.amber,
       ),
       body: RefreshIndicator(
         key: refreshKey,
@@ -97,5 +100,36 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
     return scaffold;
+  }
+}
+
+class SplashScreen extends StatefulWidget {
+  @override
+  _SplashScreenState createState() => new _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  startTime() async {
+    var _duration = new Duration(seconds: 2);
+    return new Timer(_duration, navigationPage);
+  }
+
+  void navigationPage() {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyHomePage()));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    startTime();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      body: new Center(
+        child: new Image.asset('images/SplashScreen.jpg'),
+      ),
+    );
   }
 }
