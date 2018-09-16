@@ -42,6 +42,8 @@ class _MyHomePageState extends State<MyHomePage> {
   final Connectivity _connectivity = Connectivity();
   StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
+  DisplayCard error_card = DisplayCard.Error("Something's a little wonky!", "Check your internet connection and try again");
+
   // callback that we pass into each DisplayCard to refresh
   // the state after we modify it in place
   // it's fucking witchcraft, "how to call build without calling build"
@@ -55,9 +57,11 @@ class _MyHomePageState extends State<MyHomePage> {
     initConnectivity();
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
-      setState(() => _connectionStatus = result.toString());
-    });
-    refreshList();
+          setState(() {
+            _connectionStatus = result.toString();
+            refreshList();
+          });
+        });
   }
 
   @override
@@ -91,33 +95,19 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<Null> refreshList() async {
-    refreshKey.currentState?.show(atTop: false);
+//    refreshKey.currentState?.show(atTop: false);
     WebScraper scraper = WebScraper();
 
-    //check if we have internet
-    initConnectivity().whenComplete(() async {
-
-      if(_connectionStatus.endsWith("wifi")){
-        //if we have internet
-        List<Garage> garageData = await scraper.scrape();
-        List<DisplayCard> cardData = List<DisplayCard>();
-        cards.clear();
-        garageData.forEach((g) {
-          cardData.add(DisplayCard.Garage(g, callback));
-        });
-        setState(() {
-          cards = cardData;
-        });
-      }
+    List<Garage> garageData = await scraper.scrape();
+    List<DisplayCard> cardData = List<DisplayCard>();
+    cards.clear();
+    garageData.forEach((g) {
+      cardData.add(DisplayCard.Garage(g, callback));
     });
 
-    //if we don't have internet
-    if (_connectionStatus != "ConnectivityResult.wifi") {
-      //Todo: add an ErrorCard to cardData at position 0
-
-    } else {
-
-    }
+    setState(() {
+      cards = cardData;
+    });
 
     return null;
   }
@@ -126,7 +116,22 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     print(_connectionStatus);
 
-    Scaffold scaffold = Scaffold(
+    //if no internet, insert error card at top
+    if(_connectionStatus == "ConnectivityResult.none" || _connectionStatus == "Unknown"){
+      if (cards.length == 0 || cards.first.cardType != CardType.ErrorCard) {
+        setState(() {
+          cards.insert(0, error_card);
+        });
+      }
+    }
+
+    else if (cards.length > 0 && cards.first.cardType == CardType.ErrorCard) {
+      setState(() {
+          cards.removeAt(0);
+      });
+    }
+
+      Scaffold scaffold = Scaffold(
       appBar: new AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
