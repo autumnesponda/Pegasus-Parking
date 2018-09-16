@@ -13,7 +13,6 @@ void main() {
     home: new SplashScreen(),
   ));
   MapView.setApiKey("AIzaSyCOZxrc1ORQiZoy_yqesyKe8ma9vHBapxM");
-  runApp(new MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -91,7 +90,10 @@ class _MyHomePageState extends State<MyHomePage> {
               return Card(
                 child: Text("PLz. Referesh."),
               );
-            return cards[index].getCard();
+            return Padding(
+              padding: const EdgeInsets.all(7.0),
+              child: cards[index].getCard(),
+            );
           },
           itemCount: cards.length,
           physics: BouncingScrollPhysics(),
@@ -110,7 +112,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   startTime() async {
-    var _duration = new Duration(seconds: 2);
+    var _duration = new Duration(seconds: 3);
     return new Timer(_duration, navigationPage);
   }
 
@@ -127,8 +129,12 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body: new Center(
-        child: new Image.asset('images/SplashScreen.jpg'),
+      body: new Image.asset(
+        'images/SplashScreen.jpg',
+        alignment: Alignment.center,
+        fit: BoxFit.cover,
+        height: double.infinity,
+        width: double.infinity,
       ),
     );
   }
