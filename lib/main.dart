@@ -126,7 +126,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     print(_connectionStatus);
 
-    ScrollController _scrollController = new ScrollController();
     Scaffold scaffold = Scaffold(
       appBar: new AppBar(
         // Here we take the value from the MyHomePage object that was created by
