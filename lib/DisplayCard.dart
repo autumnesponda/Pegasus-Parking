@@ -62,6 +62,7 @@ class DisplayCard {
 
   Card makeGarageCard() {
     return Card(
+      color: Colors.grey[50],
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
         child: Column(
@@ -135,9 +136,7 @@ class DisplayCard {
                     ),
                   ],
                 ),
-
               ],
-
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -159,6 +158,7 @@ class DisplayCard {
 
   Card makeErrorCard() {
     return Card(
+      color: Colors.grey[50],
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(children: <Widget>[
@@ -181,6 +181,7 @@ class DisplayCard {
 
   Card makeMapCard() {
     return Card(
+      color: Colors.grey[50],
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
         child: Column(
