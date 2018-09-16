@@ -10,7 +10,13 @@ class DisplayCard {
   String errorTitle;
   String errorSubtitle;
   VoidCallback buttonOnPress;
-  CardType cardType;
+  CardType _cardType;
+
+  set cardType(CardType value) {
+    _cardType = value;
+  }
+
+  CardType get cardType => _cardType;
 
   DisplayCard.Error(this.errorTitle, this.errorSubtitle) {
     this.cardType = CardType.ErrorCard;
@@ -176,28 +182,94 @@ class DisplayCard {
   Card makeMapCard() {
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(children: <Widget>[
-          ListTile(
-            title: Center(child: Text(
-              "THIS IS A FUCKING MAP CARD",
-              style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-            )),
-            subtitle: Center(child: Text(
-              "AHHHHHHHHHHHHHHHHHHHHHHHHHHH",
-              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-            )),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.keyboard_arrow_up),
-                onPressed: toggleCardType,
-              ),
-            ],
-          ),
-        ]),
+        padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
+        child: Column(
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              garage.garageName,
+                              style: TextStyle(
+                                  fontSize: 24.0, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        //SizedBox(height: 8.0,),
+                        Row(
+                          children: <Widget>[
+                            Text("Spots Available: "),
+                            SizedBox(
+                              width: 8.0,
+                            ),
+                            Text(
+                              "${garage.availableSpots}",
+                              style: TextStyle(
+                                  fontSize: 17.0, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Text("Estimated Time to Park: "),
+                            SizedBox(
+                              width: 8.0,
+                            ),
+                            Text(
+                              "~${garage.timeToPark} min",
+                              style: TextStyle(
+                                  fontSize: 17.0, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      width: 16.0,
+                    ),
+                    Column(
+                      children: <Widget>[
+                        Padding(
+                          // This is to shift the progress indicator slightly to the
+                          // left so that it looks pretty.
+                          padding: const EdgeInsets.fromLTRB(0.0, 0.0, 4.0, 0.0),
+                          child: CircularPercentIndicator(
+                            radius: 75.0,
+                            lineWidth: 5.0,
+                            percent: garage.percentFull / 100.0,
+                            center: new Text("${garage.percentFull}%" + '\n' + " full"),
+                            progressColor: Colors.orange,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+
+              ],
+
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.keyboard_arrow_up),
+                  onPressed: toggleCardType,
+                ),
+              ],
+            ),
+          ],
+        ),
+
       ),
       elevation: 12.0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
