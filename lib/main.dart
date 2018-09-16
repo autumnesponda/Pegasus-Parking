@@ -6,8 +6,11 @@ import 'package:ucf_parking/Garage.dart';
 import 'package:ucf_parking/WebScraper.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
+import 'package:map_view/map_view.dart';
+
 
 void main() {
+  MapView.setApiKey("AIzaSyCOZxrc1ORQiZoy_yqesyKe8ma9vHBapxM");
   runApp(new MyApp());
 }
 
@@ -38,11 +41,6 @@ class _MyHomePageState extends State<MyHomePage> {
   var refreshKey = GlobalKey<RefreshIndicatorState>();
 
   List<DisplayCard> cards = List<DisplayCard>();
-  String _connectionStatus = 'Unknown';
-  final Connectivity _connectivity = Connectivity();
-  StreamSubscription<ConnectivityResult> _connectivitySubscription;
-
-  DisplayCard error_card = DisplayCard.Error("Something's a little wonky!", "Check your internet connection and try again");
 
   // callback that we pass into each DisplayCard to refresh
   // the state after we modify it in place
@@ -54,48 +52,10 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    initConnectivity();
-    _connectivitySubscription =
-        _connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
-          setState(() {
-            _connectionStatus = result.toString();
-            refreshList();
-          });
-        });
-  }
-
-  @override
-  void dispose() {
-    _connectivitySubscription.cancel();
-    super.dispose();
-  }
-
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<Null> initConnectivity() async {
-    String connectionStatus;
-
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      connectionStatus = (await _connectivity.checkConnectivity()).toString();
-    } on PlatformException catch (e) {
-      print(e.toString());
-      connectionStatus = 'Failed to get connectivity.';
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) {
-      return;
-    }
-
-    setState(() {
-      _connectionStatus = connectionStatus;
-    });
+    refreshList();
   }
 
   Future<Null> refreshList() async {
-//    refreshKey.currentState?.show(atTop: false);
     WebScraper scraper = WebScraper();
 
     List<Garage> garageData = await scraper.scrape();
@@ -114,23 +74,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    print(_connectionStatus);
-
-    //if no internet, insert error card at top
-    if(_connectionStatus == "ConnectivityResult.none" || _connectionStatus == "Unknown"){
-      if (cards.length == 0 || cards.first.cardType != CardType.ErrorCard) {
-        setState(() {
-          cards.insert(0, error_card);
-        });
-      }
-    }
-
-    else if (cards.length > 0 && cards.first.cardType == CardType.ErrorCard) {
-      setState(() {
-          cards.removeAt(0);
-      });
-    }
-
       Scaffold scaffold = Scaffold(
       appBar: new AppBar(
         // Here we take the value from the MyHomePage object that was created by
