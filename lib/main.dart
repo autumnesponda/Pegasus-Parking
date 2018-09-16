@@ -57,15 +57,11 @@ class _MyHomePageState extends State<MyHomePage> {
     initConnectivity();
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
-      setState(() {
-        _connectionStatus = result.toString();
-//        if(_connectionStatus != ConnectivityResult.none){
-          refreshList();
-//        }
-
-      });
-    });
-    //refreshList();
+          setState(() {
+            _connectionStatus = result.toString();
+            refreshList();
+          });
+        });
   }
 
   @override
@@ -99,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<Null> refreshList() async {
-    //refreshKey.currentState?.show(atTop: false);
+//    refreshKey.currentState?.show(atTop: false);
     WebScraper scraper = WebScraper();
 
     List<Garage> garageData = await scraper.scrape();
@@ -121,13 +117,21 @@ class _MyHomePageState extends State<MyHomePage> {
     print(_connectionStatus);
 
     //if no internet, insert error card at top
-    if(_connectionStatus == "Connectivity.none"){
+    if(_connectionStatus == "ConnectivityResult.none" || _connectionStatus == "Unknown"){
+      if (cards.length == 0 || cards.first.cardType != CardType.ErrorCard) {
+        setState(() {
+          cards.insert(0, error_card);
+        });
+      }
+    }
+
+    else if (cards.length > 0 && cards.first.cardType == CardType.ErrorCard) {
       setState(() {
-        cards.insert(0, error_card);
+          cards.removeAt(0);
       });
     }
 
-    Scaffold scaffold = Scaffold(
+      Scaffold scaffold = Scaffold(
       appBar: new AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
