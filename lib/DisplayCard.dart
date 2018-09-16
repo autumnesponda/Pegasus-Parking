@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:map_view/map_view.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:ucf_parking/Garage.dart';
-import 'package:ucf_parking/main.dart';
 
 enum CardType {ErrorCard, GarageCard, MapCard}
 
 class DisplayCard {
+  static StaticMapProvider _staticMapProvider = StaticMapProvider("AIzaSyCOZxrc1ORQiZoy_yqesyKe8ma9vHBapxM");
   Garage garage;
   String errorTitle;
   String errorSubtitle;
@@ -150,9 +151,18 @@ class DisplayCard {
                 ),
               ],
             ),
-            SizedBox(
-              height: 175.0,
-              // TODO: STATIC MAP GOES HERE!
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 16.0),
+              child: DecoratedBox(
+                decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+                child: SizedBox(
+                  height: 175.0,
+                  child: Center(
+                    child: Text("Here goes a static map for ${garage.garageName}"),
+                  ),
+                  // TODO: STATIC MAP GOES HERE!
+                ),
+              ),
             ),
           ],
         ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:connectivity/connectivity.dart';
 import 'package:ucf_parking/DisplayCard.dart';
 import 'package:ucf_parking/Garage.dart';
 import 'package:ucf_parking/WebScraper.dart';
@@ -9,10 +8,11 @@ import 'package:map_view/map_view.dart';
 
 
 void main() {
+  MapView.setApiKey("AIzaSyCOZxrc1ORQiZoy_yqesyKe8ma9vHBapxM");
+
   runApp(new MaterialApp(
     home: new SplashScreen(),
   ));
-  MapView.setApiKey("AIzaSyCOZxrc1ORQiZoy_yqesyKe8ma9vHBapxM");
 }
 
 class MyApp extends StatelessWidget {
