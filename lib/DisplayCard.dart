@@ -5,7 +5,9 @@ import 'package:ucf_parking/Garage.dart';
 
 enum CardType {ErrorCard, GarageCard, MapCard}
 
-class DisplayCard {
+//enum SortType {}
+
+class DisplayCard{
   static StaticMapProvider _staticMapProvider = StaticMapProvider("AIzaSyCOZxrc1ORQiZoy_yqesyKe8ma9vHBapxM");
   Garage garage;
   String errorTitle;
@@ -33,6 +35,16 @@ class DisplayCard {
     this.errorTitle = null;
     this.errorSubtitle = null;
     this.cardType = CardType.MapCard;
+  }
+
+  Color getProgressColor(){
+    if(garage.percentFull < 50)
+      return Colors.green;
+    if(garage.percentFull < 75)
+      return Colors.yellow[300];
+    else{
+      return Colors.red;
+    }
   }
 
   Card getCard() {
@@ -130,7 +142,7 @@ class DisplayCard {
                             lineWidth: 5.0,
                             percent: garage.percentFull / 100.0,
                             center: new Text("${garage.percentFull}%" + '\n' + " full"),
-                            progressColor: Colors.orange,
+                            progressColor: getProgressColor(),
                           ),
                         ),
                       ],
@@ -245,7 +257,7 @@ class DisplayCard {
                             Text(
                               "~${garage.timeToPark} min",
                               style: TextStyle(
-                                  fontSize: 17.0, fontWeight: FontWeight.bold),
+                                  fontSize: 17.0, fontWeight: FontWeight.bold, color: getProgressColor()),
                             ),
                           ],
                         ),
@@ -265,7 +277,7 @@ class DisplayCard {
                             lineWidth: 5.0,
                             percent: garage.percentFull / 100.0,
                             center: new Text("${garage.percentFull}%" + '\n' + " full"),
-                            progressColor: Colors.orange,
+                            progressColor: getProgressColor(),
                           ),
                         ),
                       ],

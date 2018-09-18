@@ -46,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   List<DisplayCard> cards = List<DisplayCard>();
   School school;
-
+  bool sorted;
 
 
   // callback that we pass into each DisplayCard to refresh
@@ -60,6 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     school = School.UCF;
+    sorted = false;
     refreshList();
   }
 
@@ -75,6 +76,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
     setState(() {
       cards = cardData;
+
+      //does the user want the cards to be sorted?
+      if(sorted){
+        //if so, sort them!
+        sort();
+      }
     });
 
     return null;
@@ -83,6 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    //refreshList();
     List<Widget> bodyParts = [
       RefreshIndicator(
         key: refreshKey,
@@ -117,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Center(child: new Text('Pegasus Parking')),
-        actions: <Widget>[IconButton(icon: Icon(Icons.filter_list), onPressed: null)],
+        actions: <Widget>[IconButton(icon: Icon(Icons.filter_list), onPressed: filter)],
         backgroundColor: Colors.amber,
       ),
       body: bodyParts[_currentTabIndex],
@@ -179,10 +187,31 @@ class _MyHomePageState extends State<MyHomePage> {
               break;
           }
         },
-
       ),
     );
     return scaffold;
+  }
+
+  void sort(){
+    //this is a bad way of doing this (using the filter button as a toggle to sort by percent full)
+    //
+    //when they set back to "unsorted" we make a new network call by calling refreshList()
+    //instead of what we should be doing - sorting by name (saves data and battery, which means that would save electricity, which means that would lower carbon dioxide emissions which means it would save the earth. We should probably do that. Imagine the environmental impact we could have.
+    setState(() {
+      cards.sort(sortCards);
+    });
+  }
+
+  void filter(){
+    sorted = !sorted;
+    if(sorted) sort();
+    else{
+      refreshList();
+    }
+  }
+
+  int sortCards(DisplayCard card1, DisplayCard card2) {
+    return card2.garage.availableSpots - card1.garage.availableSpots;
   }
 }
 
