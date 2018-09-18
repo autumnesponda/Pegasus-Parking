@@ -1,4 +1,5 @@
 import 'package:ucf_parking/Garage.dart';
+import 'dart:async';
 
 abstract class MapViewConfigForGarage {
   static Future<Uri> getUriFor(Garage garage) async {

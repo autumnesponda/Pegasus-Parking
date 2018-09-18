@@ -145,14 +145,10 @@ class DisplayCard {
                   height: 10.0,
                   color: Colors.grey[700],
                 ),
-                IconButton(
-                  icon: Icon(Icons.keyboard_arrow_up),
-                  onPressed: toggleCardType,
-                ),
               ],
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 16.0),
+              padding: const EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 16.0),
               child: DecoratedBox(
                 decoration: BoxDecoration(border: Border.all(color: Colors.black)),
                 child: SizedBox(
@@ -163,6 +159,10 @@ class DisplayCard {
                   // TODO: STATIC MAP GOES HERE!
                 ),
               ),
+            ),
+            IconButton(
+              icon: Icon(Icons.keyboard_arrow_up),
+              onPressed: toggleCardType,
             ),
           ],
         ),

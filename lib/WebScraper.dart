@@ -1,14 +1,41 @@
 import 'dart:math';
-
 import 'package:ucf_parking/Garage.dart';
 import 'package:ucf_parking/IWebScrape.dart';
+import 'package:ucf_parking/school.dart';
+
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' as parser;
 import 'package:html/dom.dart';
 import 'dart:async';
 
 class WebScraper implements IWebScrape {
-  final _url = 'http://secure.parking.ucf.edu/GarageCount/';
+  var _url;
+  var school;
+
+  WebScraper.ucf(){
+    this._url = 'http://secure.parking.ucf.edu/GarageCount/';
+    this.school = School.UCF;
+  }
+
+  WebScraper(School school){
+    switch (school){
+      case School.UCF:
+        this._url = 'http://secure.parking.ucf.edu/GarageCount/';
+        this.school = School.UCF;
+        break;
+
+      case School.FIU:
+        break;
+
+      case School.OSU:
+        break;
+
+      default:
+        this._url = 'http://secure.parking.ucf.edu/GarageCount/';
+        this.school = School.UCF;
+    }
+
+  }
 
   @override
   Future<List<Garage>> scrape() async {

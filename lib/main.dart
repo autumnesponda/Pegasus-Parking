@@ -5,15 +5,14 @@ import 'package:ucf_parking/WebScraper.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:map_view/map_view.dart';
-
+import 'package:ucf_parking/school.dart';
 
 void main() {
   MapView.setApiKey("AIzaSyCOZxrc1ORQiZoy_yqesyKe8ma9vHBapxM");
 
-  runApp(new MaterialApp(
-    home: new SplashScreen(),
-  ));
+  runApp(MyApp());
 }
+const DEBUG = true;
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -25,7 +24,7 @@ class MyApp extends StatelessWidget {
       theme: new ThemeData(
         primarySwatch: Colors.amber,
       ),
-      home: new MyHomePage(title: 'Pegasus Parking'),
+      home: new SplashScreen(),
     );
   }
 }
@@ -38,10 +37,15 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => new _MyHomePageState();
 }
 
+
 class _MyHomePageState extends State<MyHomePage> {
   var refreshKey = GlobalKey<RefreshIndicatorState>();
 
+  //defaults to the ucf tab
+  var _currentTabIndex = 0;
+
   List<DisplayCard> cards = List<DisplayCard>();
+  School school;
 
   // callback that we pass into each DisplayCard to refresh
   // the state after we modify it in place
@@ -53,18 +57,19 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    school = School.UCF;
     refreshList();
   }
 
   Future<Null> refreshList() async {
-    WebScraper scraper = WebScraper();
-
+    WebScraper scraper = WebScraper(school);
     List<Garage> garageData = await scraper.scrape();
     List<DisplayCard> cardData = List<DisplayCard>();
     cards.clear();
     garageData.forEach((g) {
       cardData.add(DisplayCard.Garage(g, callback));
     });
+
 
     setState(() {
       cards = cardData;
@@ -75,11 +80,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-      Scaffold scaffold = Scaffold(
+    Scaffold scaffold = Scaffold(
+
       appBar: new AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Center(child: new Text('Pegasus Parking')),
+        actions: <Widget>[IconButton(icon: Icon(Icons.filter_list), onPressed: null)],
         backgroundColor: Colors.amber,
       ),
       body: RefreshIndicator(
@@ -100,6 +107,62 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         onRefresh: refreshList,
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        fixedColor: Colors.amber[700],
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            title: Text("UCF"),
+            icon: Icon(Icons.directions_car),
+          ),
+          BottomNavigationBarItem(
+            title: Text("FIU"),
+            icon: Icon(Icons.directions_car),
+          ),
+          BottomNavigationBarItem(
+            title: Text("OSU"),
+            icon: Icon(Icons.directions_car),
+          ),
+        ],
+        onTap: (int index){
+          //decently sized switch & case for handling buttons
+          switch (index){
+            //UCF
+            case 0:
+              setState(() {
+                this.school = School.UCF;
+                this._currentTabIndex = index;
+                if(DEBUG) print("current nav-bar index = $_currentTabIndex");
+              });
+              break;
+
+            //Florida International
+            case 1:
+              this.school = School.FIU;
+              this._currentTabIndex = index;
+              if(DEBUG) print("current nav-bar index = $_currentTabIndex");
+              break;
+
+            //Ohio State
+            case 2:
+              setState(() {
+                this.school = School.OSU;
+                this._currentTabIndex = index;
+                if(DEBUG) print("current nav-bar index = $_currentTabIndex");
+              });
+              break;
+
+            //default to UCF - #NationalChamps
+            default:
+              setState(() {
+                this.school = School.UCF;
+                this._currentTabIndex = index;
+                if(DEBUG) print("current nav-bar index = $_currentTabIndex");
+              });
+              break;
+          }
+        },
+
+      ),
     );
     return scaffold;
   }
@@ -117,7 +180,8 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void navigationPage() {
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyHomePage()));
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => MyHomePage(title: "Pegasus Parking")));
   }
 
   @override
