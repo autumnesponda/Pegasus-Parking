@@ -47,6 +47,8 @@ class _MyHomePageState extends State<MyHomePage> {
   List<DisplayCard> cards = List<DisplayCard>();
   School school;
 
+
+
   // callback that we pass into each DisplayCard to refresh
   // the state after we modify it in place
   // it's fucking witchcraft, "how to call build without calling build"
@@ -78,18 +80,11 @@ class _MyHomePageState extends State<MyHomePage> {
     return null;
   }
 
+
   @override
   Widget build(BuildContext context) {
-    Scaffold scaffold = Scaffold(
-
-      appBar: new AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Center(child: new Text('Pegasus Parking')),
-        actions: <Widget>[IconButton(icon: Icon(Icons.filter_list), onPressed: null)],
-        backgroundColor: Colors.amber,
-      ),
-      body: RefreshIndicator(
+    List<Widget> bodyParts = [
+      RefreshIndicator(
         key: refreshKey,
         child: ListView.builder(
           itemBuilder: (context, index) {
@@ -107,7 +102,27 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         onRefresh: refreshList,
       ),
+      Card(
+        child: Text("This is where FIU Parking data will go"),
+        color: Colors.red[300],
+      ),
+      Card(
+        child: Text("This is where OSU Parking data will go"),
+        color: Colors.red,
+      ),
+    ];
+    Scaffold scaffold = Scaffold(
+
+      appBar: new AppBar(
+        // Here we take the value from the MyHomePage object that was created by
+        // the App.build method, and use it to set our appbar title.
+        title: Center(child: new Text('Pegasus Parking')),
+        actions: <Widget>[IconButton(icon: Icon(Icons.filter_list), onPressed: null)],
+        backgroundColor: Colors.amber,
+      ),
+      body: bodyParts[_currentTabIndex],
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentTabIndex,
         fixedColor: Colors.amber[700],
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -123,6 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: Icon(Icons.directions_car),
           ),
         ],
+
         onTap: (int index){
           //decently sized switch & case for handling buttons
           switch (index){
@@ -137,9 +153,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
             //Florida International
             case 1:
-              this.school = School.FIU;
-              this._currentTabIndex = index;
-              if(DEBUG) print("current nav-bar index = $_currentTabIndex");
+              setState(() {
+                this.school = School.FIU;
+                this._currentTabIndex = index;
+                if(DEBUG) print("current nav-bar index = $_currentTabIndex");
+              });
               break;
 
             //Ohio State
