@@ -41,7 +41,7 @@ class DisplayCard{
     if(garage.percentFull < 50)
       return Colors.green;
     if(garage.percentFull < 75)
-      return Colors.yellow[300];
+      return Colors.amber;
     else{
       return Colors.red;
     }

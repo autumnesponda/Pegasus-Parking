@@ -200,6 +200,8 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       cards.sort(sortCards);
     });
+
+
   }
 
   void filter(){

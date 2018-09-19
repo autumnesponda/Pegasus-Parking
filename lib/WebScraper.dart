@@ -84,7 +84,8 @@ class WebScraper implements IWebScrape {
         currentGarage.capacity = capacity;
 
         // Get the fullness percentage of the garage and cast it to an int.
-        currentGarage.percentFull = 100 - (availableSpots / capacity * 100).round();
+        int percent = (availableSpots / capacity * 100).round();
+        currentGarage.percentFull = 100 - ((percent <= 100) ? percent : 100);
 
         // magical formula to very accurately grab an estimate for time to park
         int x = currentGarage.percentFull;
